@@ -1,0 +1,7 @@
+$this->base_url = $url;
+$this->url = $url;
+$this->setOpt(CURLOPT_URL, $this->url);
+$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
+$this->setOpt(CURLOPT_POST, true);
+$this->setOpt(CURLOPT_POSTFIELDS, $data);
+return $this->exec();
