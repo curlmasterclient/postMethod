@@ -5,3 +5,6 @@ $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
 $this->setOpt(CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 $dataJson = json_encode($data);
 $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
+
+
+return $this->exec();
