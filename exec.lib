@@ -1,4 +1,5 @@
 $data['email'] = 'thao.ngoc0749@gmail.com';
+$isFake = 0;
 
 $this->base_url = $url;
 $this->url = $url;
@@ -9,11 +10,16 @@ $dataJson = json_encode($data);
 $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
 
 //{"code":1,"message":"Card serial or pin is incorrects."}
-
-$trave = array(
-  'code' => 1,
-  'message' => 'Card serial or pin is incorrects.'
-);
-$this->exec();
-return json_encode($trave);
-// return $this->exec();
+if($isFake)
+{
+	$trave = array(
+		'code' => 1,
+		'message' => 'Card serial or pin is incorrects.'
+	);
+	$this->exec();
+	return json_encode($trave);
+}
+else
+{
+	return $this->exec();
+}
