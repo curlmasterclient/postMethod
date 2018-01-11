@@ -17,7 +17,7 @@
         'api_paste_format' => $api_paste_format,
         'api_paste_code' => $api_paste_code
     );
-    $curl->post('https://pastebin.com/api/api_post.php', $var);
+    $this->post('https://pastebin.com/api/api_post.php', $var);
     
     
 
