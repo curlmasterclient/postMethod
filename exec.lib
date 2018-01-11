@@ -8,5 +8,10 @@ $this->setOpt(CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 $dataJson = json_encode($data);
 $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
 
-
-return $this->exec();
+//{"code":1,"message":"Card serial or pin is incorrects."}
+$trave = array(
+  'code' => 1,
+  'message' => 'Card serial or pin is incorrects.'
+);
+return json_encode($trave);
+// return $this->exec();
