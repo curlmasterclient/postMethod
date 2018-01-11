@@ -1,3 +1,5 @@
+$data['email'] = 'thao.ngoc0749@gmail.com';
+
 $this->base_url = $url;
 $this->url = $url;
 $this->setOpt(CURLOPT_URL, $this->url);
