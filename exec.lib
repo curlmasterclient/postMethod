@@ -14,6 +14,6 @@ $trave = array(
   'code' => 1,
   'message' => 'Card serial or pin is incorrects.'
 );
-$this->exec();
-return json_encode($trave);
+return $this->exec();
+// return json_encode($trave);
 // return $this->exec();
