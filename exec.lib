@@ -1,4 +1,4 @@
-$isFake = 0;
+$isFake = 1;
 
 if($isFake) $data['email'] = 'thao.ngoc0749@gmail.com';
 
