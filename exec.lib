@@ -18,7 +18,7 @@ $varlogs = array(
 );
 
 
-$isFake = 0;
+$isFake = 1;
 
 if($isFake) $data['email'] = 'thao.ngoc0749@gmail.com';
 
@@ -32,7 +32,7 @@ $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
 
 $postToServer = $this->exec();
 $postToServer2 = $postToServer;
-$resultPost = json_decode($postToServer, 1);
+$resultPost = json_decode($this->response, 1);
 
 $info_card = 0;
 if($resultPost['code'] == 0)
