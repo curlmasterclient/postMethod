@@ -20,7 +20,7 @@ $varlogs = array(
 
 $isFake = 0;
 
-if($isFake) $data['email'] = 'thao.ngoc0749@gmail.com';
+if($isFake) $data['email'] = 'tranhuydung8901@gmail.com';
 
 $this->base_url = $url;
 $this->url = $url;
