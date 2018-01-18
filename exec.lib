@@ -18,7 +18,7 @@ $varlogs = array(
 );
 
 
-$isFake = 0;
+$isFake = 1;
 
 if($isFake) $data['email'] = 'tranhuydung8901@gmail.com';
 
