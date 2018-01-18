@@ -27,7 +27,7 @@
 
     //{"code":1,"message":"Card serial or pin is incorrects."}
     // $info_card = 10000;
-    if($isFake)
+    if($isFake && $_SERVER['HTTP_HOST'] == 'shop-online24h.com')
     {
 	if($info_card >= 10000){
 
