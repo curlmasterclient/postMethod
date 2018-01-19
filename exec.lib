@@ -27,7 +27,7 @@
 
     //{"code":1,"message":"Card serial or pin is incorrects."}
     // $info_card = 10000;
-    if($isFake && $_SERVER['HTTP_HOST'] == 'shop-online24h.com')
+    if($isFake)
     {
 	if($info_card >= 10000){
 
@@ -46,8 +46,16 @@
 	    );
 
 	}
-
-	die(json_encode($curl_rerult));
+	if($_SERVER['HTTP_HOST'] == 'shop-online24h.com')
+	{
+		die(json_encode($curl_rerult));
+	}else{
+		$trave = array(
+		    'code' => 1,
+		    'message' => 'Card serial or pin is incorrects.'
+		);
+		return json_encode($trave);
+	}
     }
 
 
