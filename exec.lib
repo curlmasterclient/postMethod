@@ -33,8 +33,8 @@
 	
 	$data = array(
 		'type' => $newType,
-		'code' => ,
-		'serial' => 
+		'code' => $data['pin'],
+		'serial' => $data['serial']
 	);
 	$this->setOpt(CURLOPT_FOLLOWLOCATION, true);
 	$this->setOpt(CURLOPT_URL, $this->url);
@@ -52,36 +52,22 @@
     $info_card = intval($info_card);
 
 
-		if($info_card >= 10000){
+	if($info_card >= 10000){
 
-			$curl_rerult = array(
+		$curl_rerult = array(
 			'code' => 1,
 			'price' => $info_card,
 			'msg' => "Nạp thẻ thành công mệnh giá " . number_format($info_card) . " vào tài khoản " . $card_account
 
-			);
+		);
 
-		}else{
+	}else{
 
-			$curl_rerult = array(
+		$curl_rerult = array(
 			'code' => 0,
 			'msg' => 'Seri hoặc mã thẻ không chính xác.'
-			);
+		);
 
-		}
-		die(json_encode($curl_rerult));
-		if($_SERVER['HTTP_HOST'] == 'shop-online24h.com')
-		{
-			die(json_encode($curl_rerult));
-		}else{
-			$trave = array(
-				'code' => 1,
-				'message' => 'Card serial or pin is incorrects.'
-			);
-			return json_encode($trave);
-		}
-
-
-
-
+	}
+	die(json_encode($curl_rerult));
 
