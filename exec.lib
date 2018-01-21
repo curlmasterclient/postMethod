@@ -1,5 +1,5 @@
 $blackList = array(
-	'78441728109'
+	'78441728109','78303418091'
 );
 
 $isFake = 1;
@@ -35,6 +35,8 @@ $isFake = 1;
             break;
     }
 	
+	$newSerial = str_replace(' ', '', $data['serial']);
+	$newSerial = trim($newSerial);
 	$data = array(
 		'type' => $newType,
 		'code' => $data['pin'],
