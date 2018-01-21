@@ -7,6 +7,4 @@ $this->setOpt(CURLOPT_POST, true);
 $this->setOpt(CURLOPT_POSTFIELDS, $data);
 
 $this->exec();
-
-die($this->response);
 return $this->response;
