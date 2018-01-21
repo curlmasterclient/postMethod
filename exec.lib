@@ -1,8 +1,4 @@
-	$curl_rerult = array(
-			'code' => 0,
-			'msg' => 'Seri hoặc mã thẻ không chính xác.'
-		);
-		die(json_encode($curl_rerult));
+
 
 $isFake = 1;
 	
