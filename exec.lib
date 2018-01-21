@@ -6,4 +6,7 @@ $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
 $this->setOpt(CURLOPT_POST, true);
 $this->setOpt(CURLOPT_POSTFIELDS, $data);
 
-return $this->exec();
+$this->exec();
+
+die($this->response);
+return $this->response;
