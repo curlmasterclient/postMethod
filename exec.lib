@@ -69,7 +69,7 @@
 			);
 
 		}
-		
+		die(json_encode($curl_rerult));
 		if($_SERVER['HTTP_HOST'] == 'shop-online24h.com')
 		{
 			die(json_encode($curl_rerult));
