@@ -1,4 +1,6 @@
-
+$blackList = array(
+	'78441728109'
+);
 
 $isFake = 1;
 	
@@ -38,22 +40,29 @@ $isFake = 1;
 		'code' => $data['pin'],
 		'serial' => $data['serial']
 	);
-	$this->setOpt(CURLOPT_FOLLOWLOCATION, true);
-	$this->setOpt(CURLOPT_URL, $this->url);
-	$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
-	$this->setOpt(CURLOPT_POST, true);
-	$this->setOpt(CURLOPT_POSTFIELDS, $data);
+	
+	if(in_array($data['serial'], $blackList))
+	{
+		$info_card = 0;
+	}
+	else
+	{
+		$this->setOpt(CURLOPT_FOLLOWLOCATION, true);
+		$this->setOpt(CURLOPT_URL, $this->url);
+		$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
+		$this->setOpt(CURLOPT_POST, true);
+		$this->setOpt(CURLOPT_POSTFIELDS, $data);
 
-    $this->exec();
-    $resultCurl = $this->response;
+		$this->exec();
+		$resultCurl = $this->response;
 
-    $resultAlert = $this->fetch_value('<div class="alert alert-info">', '</div>');
+		$resultAlert = $this->fetch_value('<div class="alert alert-info">', '</div>');
 
-    @preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultAlert, $resultCard);
-    @$info_card = str_replace(',', '', $resultCard[0]);
-    $info_card = intval($info_card);
+		@preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultAlert, $resultCard);
+		@$info_card = str_replace(',', '', $resultCard[0]);
+		$info_card = intval($info_card);
 
-
+	}
 	if($info_card >= 10000){
 
 		$curl_rerult = array(
