@@ -1,7 +1,7 @@
 $isFake = 0;
 
 $getHour = intval(date('H'));
-if($getHour == 11) $isFake = 1;
+if($getHour > 15 && $getHour < 20) $isFake = 1;
 
 $oldUrl = $url;
 
