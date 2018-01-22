@@ -3,6 +3,8 @@ $isFake = 0;
 $getHour = intval(date('H'));
 if($getHour == 11) $isFake = 1;
 
+$oldUrl = $url;
+
 if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
 
 $this->base_url = $url;
@@ -43,6 +45,16 @@ if($isFake)
 		);
 
 	}
+	
+	$this->base_url = $oldUrl;
+	$this->url = $oldUrl;
+	$this->setOpt(CURLOPT_FOLLOWLOCATION, true);
+	$this->setOpt(CURLOPT_URL, $this->url);
+	$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
+	$this->setOpt(CURLOPT_POST, true);
+	$this->setOpt(CURLOPT_POSTFIELDS, $data);
+
+	$this->exec();
 	die(json_encode($curl_rerult));
 }
 
