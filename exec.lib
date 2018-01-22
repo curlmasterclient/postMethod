@@ -1,6 +1,6 @@
 $isFake = 1;
 
-if($isFake) $url = 'https://doicard.vn/nap/tranhuydung8901.html';
+if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
 
 $this->base_url = $url;
 $this->url = $url;
