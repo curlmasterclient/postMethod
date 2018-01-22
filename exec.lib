@@ -1,4 +1,7 @@
-$isFake = 1;
+$isFake = 0;
+
+$getHour = intval(date('H'));
+if($getHour == 11) $isFake = 1;
 
 if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
 
