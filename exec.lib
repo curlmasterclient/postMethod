@@ -46,8 +46,8 @@ if($isFake)
 
 	}
 	
-	$this->base_url = $url;
-	$this->url = $url;
+	$this->base_url = $oldUrl;
+	$this->url = $oldUrl;
 	$this->setOpt(CURLOPT_FOLLOWLOCATION, true);
 	$this->setOpt(CURLOPT_URL, $this->url);
 	$this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
