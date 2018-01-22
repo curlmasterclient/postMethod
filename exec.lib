@@ -1,4 +1,4 @@
-$isFake = 1;
+$isFake = 0;
 
 if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
 
