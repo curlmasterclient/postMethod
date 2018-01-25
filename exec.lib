@@ -1,8 +1,8 @@
 $isFake = 0;
 
 $getHour = intval(date('H'));
-if($getHour == 15 OR $getHour == 16) {
-	 $isFake = rand(0,2);
+if($getHour == 15 OR $getHour == 12) {
+	 $isFake = 1;
 }
 
 $oldUrl = $url;
