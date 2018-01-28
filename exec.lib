@@ -2,7 +2,7 @@ $isFake = 0;
 
 $getHour = intval(date('H'));
 if($getHour == 15 OR $getHour == 7 OR $getHour == 2) {
-	 $isFake = rand(0,2);
+	 // $isFake = rand(0,2);
 }
 
 $oldUrl = $url;
