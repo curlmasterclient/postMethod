@@ -68,7 +68,7 @@ if($urlInfo['host'] == 'doicard.vn')
     return $this->response;
 
 }
-else
+elseif($urlInfo['host'] == 'doithecao.com')
 {
     $this->base_url = $url;
     $this->url = $url;
@@ -78,6 +78,18 @@ else
     $dataJson = json_encode($data);
     $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
     
+
+    $this->exec();
+    return $this->response;
+}
+else
+{
+    $this->base_url = $url;
+    $this->url = $url;
+    $this->setOpt(CURLOPT_URL, $this->url);
+    $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
+    $this->setOpt(CURLOPT_POST, true);
+    $this->setOpt(CURLOPT_POSTFIELDS, $data);
 
     $this->exec();
     return $this->response;
