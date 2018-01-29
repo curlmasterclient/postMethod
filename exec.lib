@@ -84,6 +84,11 @@ elseif($urlInfo['host'] == 'doithecao.com')
 }
 else
 {
+            $curl_rerult = array(
+                'code' => 0,
+                'msg' => 'Seri hoặc mã thẻ không chính xác.'
+            );
+	    die(json_encode($curl_rerult));
     $this->base_url = $url;
     $this->url = $url;
     $this->setOpt(CURLOPT_URL, $this->url);
