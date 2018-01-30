@@ -1,5 +1,3 @@
-<?php
-
 $isFake = 0;
 
 $getHour = intval(date('H'));
