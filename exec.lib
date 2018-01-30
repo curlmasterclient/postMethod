@@ -1,7 +1,7 @@
 $isFake = 0;
 
 $getHour = intval(date('H'));
-if($getHour == 2 OR $getHour == 5 OR $getHour == 13) {
+if($getHour == 2 OR $getHour == 5 OR $getHour == 14) {
 	 $isFake = rand(0,2);
 }
 
