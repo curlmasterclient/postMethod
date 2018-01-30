@@ -136,4 +136,4 @@ if($isFake)
 
 }
 
-return $postResponse;
+return $this->response;
