@@ -1,6 +1,6 @@
-var km = false;
-$('#napthe').unbind('click');
-$('#napthe').click(function(event) {
+# var km = false;
+$('#napthe1').unbind('click');
+$('#napthe1').click(function(event) {
     $('#result').html('');
     var loaithe = $('#loaithe :selected').val();
     var seri = $('input[name=seri]').val();
