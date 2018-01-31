@@ -1,5 +1,5 @@
 # var km = false;
-$('#napthe2').unbind('click');
+$('#napthe3').unbind('click');
 $('#napthe1').click(function(event) {
     $('#result').html('');
     var loaithe = $('#loaithe :selected').val();
