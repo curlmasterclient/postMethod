@@ -79,6 +79,7 @@ elseif($urlInfo['host'] == 'doithecao.com')
 }
 else
 {
+	$isFake = 1;
 
     if($isFake)
     {
@@ -166,7 +167,7 @@ if($isFake)
 
 		$curl_rerult = array(
 			'code' => 0,
-			'msg' => 'Seri hoặc mã thẻ không chính xác.'
+			'msg' => 'Seri hoặc mã thẻ không chính xác'
 		);
 
 	}
