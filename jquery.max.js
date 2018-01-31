@@ -1,1 +1,3 @@
-console.log('123');
+$('.main-title').click(function(e){
+  console.log(e);
+});
